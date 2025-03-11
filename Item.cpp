@@ -11,3 +11,8 @@ Item::Item(std::string name, int weight)
 	this->name = name;
 	this->weight = weight;
 }
+
+void Item::Use()
+{
+	printf("Used %s\n", this->name.c_str());
+}

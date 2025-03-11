@@ -13,3 +13,8 @@ Weapon::Weapon(std::string name, int weight, int damage)
 	this->weight = weight;
 	this->damage = damage;
 }
+
+void Weapon::Use()
+{
+	printf("Equipped %s\n", this->name.c_str());
+}

@@ -15,12 +15,33 @@ int main()
     Character character = Character("Player", 50, 3, 12, 18, weapons[rand() % 3]);
     Character enemy = Character("Enemy", 50, 2, 13, 14, weapons[rand() % 3]);
     while (true) {
-		character.attack(&enemy);
-		std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-        system("cls");
-        if (enemy.health <= 0) {
-            printf("You win!\n");
-            return 1;
+        char d;
+        std::cout << "Co chcesz zrobic?" << "\n";
+        std::cout << "a - atakuj" << "\n";
+        std::cout << "i - uzyj przedmiotu" << "\n";
+        std::cin >> d;
+        switch (d)
+        {
+        case 'a':
+            character.attack(&enemy);
+            std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+            system("cls");
+            if (enemy.health <= 0) {
+                printf("You win!\n");
+                return 1;
+            }
+            break;
+        case 'i':
+            character.inventory[0] = weapons[0];
+            for (int i = 0; i < 10; i++)
+            {
+                printf("%d - %s\n", i, character.inventory[i].name.c_str());
+            }
+            int x;
+            std::cin >> x;
+            cast<Weapon>character.inventory[x].Use();
+            std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+            break;
         }
 		enemy.attack(&character);
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
