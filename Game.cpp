@@ -32,14 +32,14 @@ int main()
             }
             break;
         case 'i':
-            character.inventory[0] = weapons[0];
+            character.inventory[0] = new Weapon(weapons[0]);
             for (int i = 0; i < 10; i++)
             {
-                printf("%d - %s\n", i, character.inventory[i].name.c_str());
+                printf("%d - %s\n", i, character.inventory[i]->name.c_str());
             }
             int x;
             std::cin >> x;
-            cast<Weapon>character.inventory[x].Use();
+            character.inventory[x]->Use();
             std::this_thread::sleep_for(std::chrono::milliseconds(3000));
             break;
         }

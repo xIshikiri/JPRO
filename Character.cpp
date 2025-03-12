@@ -7,7 +7,7 @@ Character::Character()
 	this->armor = 1;
 	this->mainHand = Weapon("Fist", 0, 5);
 	for (int i = 0; i < 10; i++) {
-		this->inventory[i] = Item("Empty", 0);
+		this->inventory[i] = new Item("Empty", 0);
 	}
 }
 
@@ -20,7 +20,7 @@ Character::Character(std::string name, int health, int armor, int strength, int 
 	this->dexterity = dexterity;
 	this->mainHand = Weapon("Fist", 0, 5);
 	for (int i = 0; i < 10; i++) {
-		this->inventory[i] = Item("Empty", 0);
+		this->inventory[i] = new Item("Empty", 0);
 	}
 }
 
@@ -33,7 +33,7 @@ Character::Character(std::string name, int health, int armor, int strength, int 
 	this->dexterity = dexterity;
 	this->mainHand = mainHand;
 	for (int i = 0; i < 10; i++) {
-		this->inventory[i] = Item("Empty", 0);
+		this->inventory[i] = new Item("Empty", 0);
 	}
 }
 

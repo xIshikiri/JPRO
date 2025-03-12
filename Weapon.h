@@ -6,6 +6,6 @@ public:
 	Weapon();
 	Weapon(std::string name, int weight, int damage);
 	int damage;
-	virtual void Use() override;
+	void Use() override;
 };
 

@@ -13,7 +13,7 @@ public:
 	int armor;
 	int strength;
 	int dexterity;
-	Item inventory[10];
+	Item* inventory[10];
 	Weapon mainHand;
 
 	void attack(Character* target);
