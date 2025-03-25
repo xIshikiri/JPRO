@@ -1,50 +1,43 @@
 #include "Character.h"
 
-Character::Character()
+#include <algorithm>
+#include "Weapon.h"
+
+Character::Character() : name("Character"), health(1), armor(1), strength(1), dexterity(1), inventorySize(10), mainHand(new Weapon("Fist", 0, 5))
 {
-	this->name = "Character";
-	this->health = 1;
-	this->armor = 1;
-	this->mainHand = Weapon("Fist", 0, 5);
-	for (int i = 0; i < 10; i++) {
-		this->inventory[i] = new Item("Empty", 0);
+	printf("Character::Character()\n");
+	inventory = new ItemSlot*[inventorySize];
+	for (int i = 0; i < inventorySize; ++i)
+	{
+		inventory[i] = new ItemSlot();
 	}
 }
 
-Character::Character(std::string name, int health, int armor, int strength, int dexterity)
+Character::Character(std::string name, int health, int armor, int strength, int dexterity, int inventorySize, Weapon* mainHand) : 
+	name(name), health(health), armor(armor), strength(strength), dexterity(dexterity), inventorySize(inventorySize), mainHand(mainHand)
 {
-	this->name = name;
-	this->health = health;
-	this->armor = armor;
-	this->strength = strength;
-	this->dexterity = dexterity;
-	this->mainHand = Weapon("Fist", 0, 5);
-	for (int i = 0; i < 10; i++) {
-		this->inventory[i] = new Item("Empty", 0);
+	printf("Character::Character()\n");
+	inventory = new ItemSlot*[inventorySize];
+	for (int i = 0; i < inventorySize; ++i)
+	{
+		inventory[i] = new ItemSlot();
 	}
 }
 
-Character::Character(std::string name, int health, int armor, int strength, int dexterity, Weapon mainHand)
+Character::~Character()
 {
-	this->name = name;
-	this->health = health;
-	this->armor = armor;
-	this->strength = strength;
-	this->dexterity = dexterity;
-	this->mainHand = mainHand;
-	for (int i = 0; i < 10; i++) {
-		this->inventory[i] = new Item("Empty", 0);
+	for (int i = 0; i < inventorySize; ++i)
+	{
+		delete inventory[i];
 	}
+	delete[] inventory;
+	printf("%s object destroyed.\n", name.c_str());
 }
-
-
 
 void Character::takeDamage(int damage)
 {
 	int damageTaken = damage - armor;
-	if (damageTaken < 0) {
-		damageTaken = 0;
-	}
+	damageTaken = std::max(damageTaken, 0);
 	health = health - damageTaken;
 	printf("%s took %d damage!\n", name.c_str(), damageTaken);
 	if (health < 0) {
@@ -58,17 +51,38 @@ void Character::takeDamage(int damage)
 void Character::die()
 {
 	printf("%s is dead!\n", name.c_str());
+	delete this;
+}
+
+void Character::UseItem(Item* item, Character* target)
+{
+	if (target == nullptr)
+	{
+		item->Use(this);
+		return;
+	}
+	item->Use(this, target);
+}
+
+void Character::UseItem(int inventoryIndex, Character* target)
+{
+	if (inventoryIndex >= inventorySize || inventoryIndex < 0)
+	{
+		printf("Invalid inventory index!");
+		return;
+	}
+	UseItem(inventory[inventoryIndex]->item, target);
 }
 
 void Character::attack(Character* target)
 {
-	printf("%s attacks %s using %s!\n", name.c_str(), target->name.c_str(), mainHand.name.c_str());
+	printf("%s attacks %s using %s!\n", name.c_str(), target->name.c_str(), mainHand->getName().c_str());
 	int attackRoll = rand() % 20 + 1;
 	int attackScore = attackRoll + (dexterity / 2) - 5;
 	bool hit = attackScore > 10 + target->armor;
 	printf("Attack rolled %d\n", attackRoll);
 	printf("Attack score is %d\n", attackScore);
-	int damage = mainHand.damage + (strength / 2) - 5;
+	int damage = mainHand->getDamage() + (strength / 2) - 5;
 	if (hit)
 	{
 		if (attackRoll == 20)

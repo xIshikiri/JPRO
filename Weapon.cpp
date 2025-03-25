@@ -1,20 +1,26 @@
 #include "Weapon.h"
+#include "Character.h"
 
-Weapon::Weapon()
+Weapon::Weapon() : EquippableItem("Weapon", 1), damage(1)
 {
-	this->name = "Weapon";
-	this->weight = 1;
-	this->damage = 1;
 }
 
-Weapon::Weapon(std::string name, int weight, int damage)
+Weapon::Weapon(std::string name, int weight, int damage) : 
+	EquippableItem(name, weight), damage(1)
 {
-	this->name = name;
-	this->weight = weight;
-	this->damage = damage;
 }
 
-void Weapon::Use()
+int Weapon::getDamage()
 {
-	printf("Equipped %s\n", this->name.c_str());
+	return this->damage;
+}
+
+void Weapon::Use(Character* User)
+{
+	printf("Equipped %s\n", getName().c_str());
+}
+
+void Weapon::Use(Character* User, Character* target)
+{
+	User->attack(target);
 }
