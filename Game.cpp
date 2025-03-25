@@ -11,7 +11,7 @@ Weapon* weapons[] = {new Weapon("Sword", 3, 5), new Weapon("Axe", 5, 7), new Wea
 
 int main()
 {
-	srand(time(NULL));
+    srand(time(NULL));
     Character* character = new Character("Player", 10, 1, 14, 12, 10, weapons[rand() % 3]);
     Character* enemy = new Character("Enemy", 10, 1, 14, 10, 10, weapons[rand() % 3]);
     while (true) {
@@ -19,9 +19,9 @@ int main()
         std::cout << "Co chcesz zrobic?" << "\n";
         std::cout << "a - atakuj" << "\n";
         std::cout << "i - uzyj przedmiotu" << "\n";
-		std::cout << "cokolwiek innego - pomin ture" << "\n";
+        std::cout << "cokolwiek innego - pomin ture" << "\n";
         std::cin >> d;
-		system("cls");
+        system("cls");
         switch (d)
         {
         case 'a':
@@ -47,28 +47,17 @@ int main()
             std::this_thread::sleep_for(std::chrono::milliseconds(3000));
             break;
         default:
-			printf("%s did nothing. Really?\n", character->name.c_str());
+            printf("%s did nothing. Really?\n", character->name.c_str());
             std::this_thread::sleep_for(std::chrono::milliseconds(3000));
         }
         system("cls");
-		enemy->attack(character);
+        enemy->attack(character);
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
         system("cls");
-		if (character->health <= 0) {
-			printf("You lose!\n");
-		    delete character;
-			return 1;
-		}
+        if (character->health <= 0) {
+            printf("You lose!\n");
+            delete character;
+            return 1;
+        }
     }
 }
-
-// Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
-// Debugowanie programu: F5 lub menu Debugowanie > Rozpocznij debugowanie
-
-// Porady dotyczące rozpoczynania pracy:
-//   1. Użyj okna Eksploratora rozwiązań, aby dodać pliki i zarządzać nimi
-//   2. Użyj okna programu Team Explorer, aby nawiązać połączenie z kontrolą źródła
-//   3. Użyj okna Dane wyjściowe, aby sprawdzić dane wyjściowe kompilacji i inne komunikaty
-//   4. Użyj okna Lista błędów, aby zobaczyć błędy
-//   5. Wybierz pozycję Projekt > Dodaj nowy element, aby utworzyć nowe pliki kodu, lub wybierz pozycję Projekt > Dodaj istniejący element, aby dodać istniejące pliku kodu do projektu
-//   6. Aby w przyszłości ponownie otworzyć ten projekt, przejdź do pozycji Plik > Otwórz > Projekt i wybierz plik sln
