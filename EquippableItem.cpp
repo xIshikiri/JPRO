@@ -2,6 +2,7 @@
 
 ItemSlot::ItemSlot() : item(nullptr), type(backpack), quantity(0)
 {
+	printf("Created ItemSlot!\n");
 }
 
 ItemSlot::ItemSlot(Item* item, SlotType type, int quantity) : item(item), type(type), quantity(quantity)

@@ -28,6 +28,10 @@ public:
 	ItemSlot(Item* item, SlotType type = backpack, int quantity = 1);
 	~ItemSlot();
 
+	Item* GetItem();
+
+
+private:
 	Item* item;
 	SlotType type;
 	int quantity;

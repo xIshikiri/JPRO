@@ -1,12 +1,20 @@
 #include "Character.h"
 
 #include <algorithm>
+#include <cassert>
+
 #include "Weapon.h"
 
 Character::Character() : name("Character"), health(1), armor(1), strength(1), dexterity(1), inventorySize(10), mainHand(new Weapon("Fist", 0, 5))
 {
 	printf("Character::Character()\n");
-	inventory = new ItemSlot*[inventorySize];
+	inventory = (ItemSlot**)malloc(inventorySize * sizeof(ItemSlot*));
+	if (inventory == nullptr)
+	{
+		printf("Failed allocating memory for Character %s. Exiting...", name.c_str());
+		exit(1);
+	}
+	//inventory = new ItemSlot*[inventorySize];
 	for (int i = 0; i < inventorySize; ++i)
 	{
 		inventory[i] = new ItemSlot();
@@ -17,7 +25,13 @@ Character::Character(std::string name, int health, int armor, int strength, int 
 	name(name), health(health), armor(armor), strength(strength), dexterity(dexterity), inventorySize(inventorySize), mainHand(mainHand)
 {
 	printf("Character::Character()\n");
-	inventory = new ItemSlot*[inventorySize];
+    inventory = (ItemSlot**)malloc(inventorySize * sizeof(ItemSlot*));
+	if (inventory == nullptr)
+	{
+		printf("Failed allocating memory for Character %s. Exiting...", name.c_str());
+		exit(1);
+	}
+	/*inventory = new ItemSlot*[inventorySize];*/
 	for (int i = 0; i < inventorySize; ++i)
 	{
 		inventory[i] = new ItemSlot();
@@ -30,7 +44,7 @@ Character::~Character()
 	{
 		delete inventory[i];
 	}
-	delete[] inventory;
+	free(inventory);
 	printf("%s object destroyed.\n", name.c_str());
 }
 
@@ -51,11 +65,15 @@ void Character::takeDamage(int damage)
 void Character::die()
 {
 	printf("%s is dead!\n", name.c_str());
-	delete this;
 }
 
 void Character::UseItem(Item* item, Character* target)
 {
+	if (item == nullptr)
+	{
+		printf("Invalid item!\n");
+		return;
+	}
 	if (target == nullptr)
 	{
 		item->Use(this);

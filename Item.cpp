@@ -3,6 +3,7 @@
 
 Item::Item() : name("Item"), weight(1)
 {
+	printf("Created item: %s!\n", getName().c_str());
 }
 
 Item::Item(std::string name, int weight) :

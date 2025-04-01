@@ -1,19 +1,20 @@
-﻿// JPRO.cpp : Ten plik zawiera funkcję „main”. W nim rozpoczyna się i kończy wykonywanie programu.
-//
-
-#include <iostream>
+﻿#include <iostream>
 #include "Character.h"
 #include <thread>
 #include <stdlib.h>
 #include <time.h>
 
-Weapon* weapons[] = {new Weapon("Sword", 3, 5), new Weapon("Axe", 5, 7), new Weapon("Bow", 2, 3)};
+Weapon* createWeapon()
+{
+    static const std::string names[] = {"Sword", "Axe", "Bow"};
+    return new Weapon(names[rand() % 3], rand() % 3 + 1, rand() % 9 + 3);
+}
 
 int main()
 {
     srand(time(NULL));
-    Character* character = new Character("Player", 10, 1, 14, 12, 10, weapons[rand() % 3]);
-    Character* enemy = new Character("Enemy", 10, 1, 14, 10, 10, weapons[rand() % 3]);
+    Character* character = new Character("Player", 10, 1, 36, 12, 10, createWeapon());
+    Character* enemy = new Character("Enemy", 10, 1, 14, 10, 10, createWeapon());
     while (true) {
         char d;
         std::cout << "Co chcesz zrobic?" << "\n";
@@ -29,16 +30,25 @@ int main()
             std::this_thread::sleep_for(std::chrono::milliseconds(3000));
             if (enemy->health <= 0) {
                 system("cls");
-                printf("You win!\n");
                 delete enemy;
+                delete character;
+                printf("You win!\n");
                 return 1;
             }
             break;
         case 'i':
-            character->inventory[0] = new ItemSlot(weapons[0]);
+            character->inventory[0] = new ItemSlot(createWeapon());
+            character->inventory[1] = new ItemSlot(new Item("Potion", 1));
             for (int i = 0; i < character->inventorySize; ++i) {
                 if (character->inventory[i] != nullptr &&  character->inventory[i]->item != nullptr) {
-                    printf("%s\n", character->inventory[i]->item->getName().c_str());
+                    Item* item = character->inventory[i]->item;
+                    printf("%d: %s - weight: %d ", i, item->getName().c_str(), item->getWeight());
+                    if (dynamic_cast<Weapon*>(item) != nullptr) {
+                        printf("damage: %d\n", dynamic_cast<Weapon*>(item)->getDamage());
+                    }
+                    else {
+                        printf("\n");
+                    }
                 }
             }
             int x;
@@ -57,6 +67,7 @@ int main()
         if (character->health <= 0) {
             printf("You lose!\n");
             delete character;
+            delete enemy;
             return 1;
         }
     }
