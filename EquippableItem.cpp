@@ -1,4 +1,5 @@
 #include "EquippableItem.h"
+#include <cassert>
 
 ItemSlot::ItemSlot() : item(nullptr), type(backpack), quantity(0)
 {
@@ -12,6 +13,23 @@ ItemSlot::ItemSlot(Item* item, SlotType type, int quantity) : item(item), type(t
 ItemSlot::~ItemSlot()
 {
 	delete item;
+}
+
+Item* ItemSlot::GetItem()
+{
+	return item;
+}
+
+void ItemSlot::SetItem(Item* inItem)
+{
+	item = inItem;
+}
+
+void ItemSlot::SwapItems(ItemSlot* SlotToSwap)
+{
+	Item* temp = item;
+	item = SlotToSwap->GetItem();
+	SlotToSwap->SetItem(temp);
 }
 
 EquippableItem::EquippableItem() = default;

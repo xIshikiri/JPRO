@@ -89,7 +89,7 @@ void Character::UseItem(int inventoryIndex, Character* target)
 		printf("Invalid inventory index!");
 		return;
 	}
-	UseItem(inventory[inventoryIndex]->item, target);
+	UseItem(inventory[inventoryIndex]->GetItem(), target);
 }
 
 void Character::attack(Character* target)

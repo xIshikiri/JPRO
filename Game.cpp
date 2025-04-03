@@ -40,8 +40,8 @@ int main()
             character->inventory[0] = new ItemSlot(createWeapon());
             character->inventory[1] = new ItemSlot(new Item("Potion", 1));
             for (int i = 0; i < character->inventorySize; ++i) {
-                if (character->inventory[i] != nullptr &&  character->inventory[i]->item != nullptr) {
-                    Item* item = character->inventory[i]->item;
+                if (character->inventory[i] != nullptr &&  character->inventory[i]->GetItem() != nullptr) {
+                    Item* item = character->inventory[i]->GetItem();
                     printf("%d: %s - weight: %d ", i, item->getName().c_str(), item->getWeight());
                     if (dynamic_cast<Weapon*>(item) != nullptr) {
                         printf("damage: %d\n", dynamic_cast<Weapon*>(item)->getDamage());

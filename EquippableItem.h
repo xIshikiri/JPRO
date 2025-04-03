@@ -29,7 +29,8 @@ public:
 	~ItemSlot();
 
 	Item* GetItem();
-
+	void SetItem(Item* Item);
+	void SwapItems(ItemSlot* SlotToSwap);
 
 private:
 	Item* item;
